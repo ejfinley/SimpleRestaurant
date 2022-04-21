@@ -2,7 +2,7 @@
 
 A back end api for for managing orders in a resturant. Developed using, NodeJS, Sequalize, Express. Testing is done using Chai.
 
-#Install Directions
+# Install Directions
 
   1. Install MySQl, Node, and Postman
       1. Node https://nodejs.org/en/download/ 
@@ -19,7 +19,7 @@ A back end api for for managing orders in a resturant. Developed using, NodeJS, 
           'npm start' to run the server
           'npm test' runs the chai tests
          
-#API routes
+# API routes
   1.After starting some basic route info is on http://localhost:8080/
   2. GET : http://localhost:8080/api/orders : Returns all orders in the database
   3. GET : http://localhost:8080/api/orders/:itemName/tables/:tableNumber Gets all orders with a similar name for defined table
@@ -27,7 +27,7 @@ A back end api for for managing orders in a resturant. Developed using, NodeJS, 
   5. POST : http://localhost:8080/api/orders passed in form body ar itemName, tableNumber, deliveryTime
   6. DELETE : http://localhost:8080/api/orders/ Deletes all orders where the delivery time is in the past
   7. http://localhost:8080/api/orders/:orderId/tables/:tableNumber Deletes the order with the matching id and table number'
-#Field info
+# Field info
   1. tableNumber : Int between 1-100
   2. itemName : String with length 3-30
   3. deliveryTime : Int 5-15 Converted to a date on the backend
@@ -40,8 +40,7 @@ A back end api for for managing orders in a resturant. Developed using, NodeJS, 
         "createdAt": "2022-04-20T07:36:12.000Z",
         "updatedAt": "2022-04-20T07:36:12.000Z"
 }
-#Testing
-  'npm test' runs the chai test suite there are two notable exceptions
+# Testing 'npm test' runs the chai test suite there are two notable exceptions
   1. A load test is not run in chai due to how threading works in node. Collection runner in postman can be used for load test
      Ideally this would be done via a script in the future.
   2. The purge route is also not tested. This is due to it taking atleast five minutes which would slow down testing significantly.   
