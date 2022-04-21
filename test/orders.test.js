@@ -178,7 +178,7 @@ describe('Orders', () => {
             let badOrder = {
                 tableNumber: 100,
                 itemName: 'cake',
-                deliveryTime: 17
+                deliveryTime: 16
 
             }
             const res = await chai.request(server)
@@ -341,19 +341,18 @@ describe('Orders', () => {
                 .send(order2);
             res.should.have.status(200);
             res = await chai.request(server)
-                .get('/api/orders/tables/1')
-                .send(order);
-                res.should.have.status(200);
-                res.body.should.be.a('array');
-                res.body[0].should.have.property('orderId');
-                res.body[0].should.have.property('tableNumber').eql(1);
-                res.body[0].should.have.property('itemName').eql('Cake');
-                res.body[0].should.have.property('deliveryTime');
-                res.body[1].should.have.property('orderId');
-                res.body[1].should.have.property('tableNumber').eql(1);
-                res.body[1].should.have.property('itemName').eql('Cake');
-                res.body[1].should.have.property('deliveryTime');
-                res.body.length.should.be.eql(2);
+                .get('/api/orders/tables/1');
+            res.should.have.status(200);
+            res.body.should.be.a('array');
+            res.body[0].should.have.property('orderId');
+            res.body[0].should.have.property('tableNumber').eql(1);
+            res.body[0].should.have.property('itemName').eql('Cake');
+            res.body[0].should.have.property('deliveryTime');
+            res.body[1].should.have.property('orderId');
+            res.body[1].should.have.property('tableNumber').eql(1);
+            res.body[1].should.have.property('itemName').eql('Cake');
+            res.body[1].should.have.property('deliveryTime');
+            res.body.length.should.be.eql(2);
 
 
         });
@@ -364,22 +363,82 @@ describe('Orders', () => {
                 deliveryTime: 6
 
             }
-        
+
             let res = await chai.request(server)
                 .post('/api/orders')
                 .send(order);
             res.should.have.status(200);
             res = await chai.request(server)
-                .get('/api/orders/tables/2')
-                .send(order);
-                res.should.have.status(200);
-                res.body.should.be.a('array');
-                res.body.length.should.be.eql(0);
+                .get('/api/orders/tables/2');
+            res.should.have.status(200);
+            res.body.should.be.a('array');
+            res.body.length.should.be.eql(0);
 
 
         });
-        
     });
+    /*
+     * Test the /Delete a single order route
+     */
+    describe('/DELETE a single order', () => {
+        it('it should not delete an order that doesnt match', async () => {
+            //Add an order 
+            let order = {
+                tableNumber: 1,
+                itemName: 'Cake',
+                deliveryTime: 6
+
+            }
+            res = await chai.request(server)
+                .post('/api/orders')
+                .send(order);
+
+            //Try to remove a different order 
+            res2 = await chai.request(server)
+                .delete('/api/orders/' + (res.body.orderId + 1) + '/tables/1');
+            res2.should.have.status(404);
+            res2.body.should.have.property('message')
+                .eql('Could not delete order with id=' + (res.body.orderId + 1));
+            //Ensure the order is still there
+            res3 = await chai.request(server)
+                .get('/api/orders');
+            res3.should.have.status(200);
+            res3.body.should.be.a('array');
+            res3.body.length.should.be.eql(1);
+
+
+        });
+        it('it should properly delete an order', async () => {
+
+            //Add an order 
+            let order = {
+                tableNumber: 1,
+                itemName: 'Cake',
+                deliveryTime: 6
+
+            }
+            res = await chai.request(server)
+                .post('/api/orders')
+                .send(order);
+
+            //Try to remove a that order 
+            res2 = await chai.request(server)
+                .delete('/api/orders/' + (res.body.orderId) + '/tables/1');
+            res2.should.have.status(200);
+            res2.body.should.have.property('message')
+                .eql('Order successfully deleted');
+            //Ensure the order is removed
+            res3 = await chai.request(server)
+                .get('/api/orders');
+            res3.should.have.status(200);
+            res3.body.should.be.a('array');
+            res3.body.length.should.be.eql(0);
+
+
+        });
+    });
+
+
 });
 
 

@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const dbConfig = require("../config/db.config.js");
 const Sequelize = require("Sequelize")
+//Load in mysql info
 const sequelize = new Sequelize(dbConfig.DB, 
     dbConfig.USERNAME, 
     dbConfig.PASSWORD,
@@ -21,6 +22,7 @@ const sequelize = new Sequelize(dbConfig.DB,
 const db = {};
 db.Sequelize = Sequelize;
 db.sequalize = sequelize;
+//Require our models for the database
 db.orders = require("./orders.model.js")(sequelize, Sequelize);
 
 

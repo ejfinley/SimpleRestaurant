@@ -4,7 +4,14 @@ const { Op } = require("sequelize");
 const { Sequelize } = require("../models");
 
 
-
+/*
+ * Create an order 
+ * expects 
+ * int tableNumber 1-100
+ * int deliveryTime 5-15
+ * String itemName len 3- 30
+ * in form body 
+ **/
 exports.create = (req, res)=> {
     if(!req.body.itemName) {
         res.status(400).send({
@@ -13,14 +20,16 @@ exports.create = (req, res)=> {
         return;
     }
     var date = new Date();
-    date = new Date(date.getTime() + req.body.deliveryTime*60000);
-    const deliveryDate = date.toISOString();
+    const deliveryDate = new Date(date.getTime() + req.body.deliveryTime*60000).toISOString();
+
     
 
     const order ={
         tableNumber : req.body.tableNumber,
         itemName : req.body.itemName,
-        deliveryTime : deliveryDate
+        deliveryTime : deliveryDate,
+
+
     }
     Order.create(order).then (data => {
         res.send(data);
@@ -32,6 +41,9 @@ exports.create = (req, res)=> {
 
 };
 
+/*
+ * Returns all Orders 
+ **/
 exports.getAll = (req, res)=> {
     Order.findAll().then(data => {
         res.send(data);
@@ -42,7 +54,10 @@ exports.getAll = (req, res)=> {
         });
     });
 };
-
+/*
+ * Returns all Orders at a table with a like name
+ * passed as params
+ **/
 exports.getByNameForTable= (req, res)=> {
     const itemName = req.params.itemName;
     const table = req.params.tableNumber;
@@ -67,7 +82,10 @@ exports.getByNameForTable= (req, res)=> {
         });
     });
 };
-
+/*
+ * Returns all Orders at a table
+ * passed as params
+ **/
 exports.getByTable = (req, res)=> {
     const table = req.params.tableNumber;
 
@@ -81,7 +99,10 @@ exports.getByTable = (req, res)=> {
     });
 
 };
-
+/*
+ * Deletes an order by id and tableNumber
+ * passed as params
+ **/
 exports.delete = (req, res)=> {
     const id = req.params.id;
     const tableNumber = req.params.tableNumber;
@@ -90,12 +111,12 @@ exports.delete = (req, res)=> {
             orderId: id,
             tableNumber: tableNumber}
     }).then(num =>{
-        if(num <= 1){
+        if(num >= 1){
             res.send({
                 message: "Order successfully deleted"
             });
         } else {
-            res.send({
+            res.status(404).send({
                 message : `Could not delete order with id=${id}`
             });
         }
@@ -106,7 +127,10 @@ exports.delete = (req, res)=> {
     });
 };
 
-
+/*
+ * Deletes all orders where delivery time has expired
+ * This should be changed more to meet client needs
+ **/
 exports.purge = (req, res)=> {
     Order.destroy({
         where : {deliveryTime:{
@@ -130,6 +154,11 @@ exports.purge = (req, res)=> {
 
 
 };
+/*
+ * Drops all orders
+ * This isnt used by the api 
+ * It is just a helper for testing
+ **/
 exports.resetTables = (req, res)=> {
     Order.destroy({where : {}}).then(num =>{
         if(num == 1){
