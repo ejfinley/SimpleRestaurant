@@ -20,7 +20,7 @@ A back end api for for managing orders in a resturant. Developed using, NodeJS, 
           'npm test' runs the chai tests
          
 # API routes
-  1.After starting some basic route info is on http://localhost:8080/
+  1. After starting some basic route info is on http://localhost:8080/
   2. GET : http://localhost:8080/api/orders : Returns all orders in the database
   3. GET : http://localhost:8080/api/orders/:itemName/tables/:tableNumber Gets all orders with a similar name for defined table
   4. GET : http://localhost:8080/api/orders/tables/:tableNumber Gets all orders for defined table
