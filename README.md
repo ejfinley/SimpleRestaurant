@@ -1,4 +1,4 @@
-# SimpleResturant
+# SimpleRestaurant
 
 A back end api for managing orders in a restaurant. Developed using, NodeJS, Sequalize, Express. Testing is done using Chai.
 
@@ -11,7 +11,7 @@ A back end api for managing orders in a restaurant. Developed using, NodeJS, Seq
   2. MySQL setup
       1. Create a mysql instance on port 3306
       2. For testing root credentials are username : root and Password : password
-      3. Create a schema called simpleresturant
+      3. Create a schema called rimplerestaurant
   3. Code setup
       1. Pull the code from this repository 
       2. In a terminal run 
