@@ -1,6 +1,6 @@
 # SimpleResturant
 
-A back end api for for managing orders in a resturant. Developed using, NodeJS, Sequalize, Express. Testing is done using Chai.
+A back end api for managing orders in a restaurant. Developed using, NodeJS, Sequalize, Express. Testing is done using Chai.
 
 # Install Directions
 
@@ -15,7 +15,7 @@ A back end api for for managing orders in a resturant. Developed using, NodeJS, 
   3. Code setup
       1. Pull the code from this repository 
       2. In a terminal run 
-          'npm install' to install dependancies
+          'npm install' to install dependencies
           'npm start' to run the server
           'npm test' runs the chai tests
          
@@ -43,7 +43,7 @@ A back end api for for managing orders in a resturant. Developed using, NodeJS, 
 # Testing 'npm test' runs the chai test suite there are two notable exceptions
   1. A load test is not run in chai due to how threading works in node. Collection runner in postman can be used for load test
      Ideally this would be done via a script in the future.
-  2. The purge route is also not tested. This is due to it taking atleast five minutes which would slow down testing significantly.   
+  2. The purge route is also not tested. This is due to it taking at least five minutes which would slow down testing significantly.   
  
   
   
